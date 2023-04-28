@@ -9,6 +9,17 @@ using UnityEngine.UI;
 public class Manager : MonoBehaviour
 {
     //prefabs
+    public GameObject hero1Prefab;
+    public GameObject hero2Prefab;
+    public GameObject hero3Prefab;
+    public GameObject hero4Prefab;
+    public GameObject enemy1Prefab;
+    public GameObject enemy2Prefab;
+    public GameObject enemy3Prefab;
+    public GameObject enemy4Prefab;
+    //scene gameobjects
+    public GameObject targetObject;
+    public GameObject cameraAxis;
     public GameObject hero1Object;
     public GameObject hero2Object;
     public GameObject hero3Object;
@@ -26,6 +37,7 @@ public class Manager : MonoBehaviour
     private Enemy2 enemy2;
     private Enemy3 enemy3;
     private Enemy4 enemy4;
+    private battleCamera battleCamera;
     //turn bools
     public bool isE1Turn;
     public bool isE2Turn;
@@ -75,27 +87,63 @@ public class Manager : MonoBehaviour
     public Button runButton;
     public Button itemButton;
     public Button magicButton;
+    //vectors
+    public Vector3 h1Pos;
+    public Vector3 h2Pos;
+    public Vector3 h3Pos;
+    public Vector3 h4Pos;
+    public Vector3 e1Pos;
+    public Vector3 e2Pos;
+    public Vector3 e3Pos;
+    public Vector3 e4Pos;
+    public Vector3 targetOffset;
+    
 
     // Start is called before the first frame update
     void Start()
     {
-        Instantiate(hero1Object, new Vector3(Random.Range(0, 10), 0, Random.Range(0, 10)), Quaternion.identity);
-        Instantiate(hero2Object, new Vector3(Random.Range(0, 10), 0, Random.Range(0, 10)), Quaternion.identity);
-        Instantiate(hero3Object, new Vector3(Random.Range(0, 10), 0, Random.Range(0, 10)), Quaternion.identity);
-        Instantiate(hero4Object, new Vector3(Random.Range(0, 10), 0, Random.Range(0, 10)), Quaternion.identity);
-        Instantiate(enemy1Object, new Vector3(Random.Range(0, 10), 0, Random.Range(0, 10)), Quaternion.identity);
-        Instantiate(enemy2Object, new Vector3(Random.Range(0, 10), 0, Random.Range(0, 10)), Quaternion.identity);
-        Instantiate(enemy3Object, new Vector3(Random.Range(0, 10), 0, Random.Range(0, 10)), Quaternion.identity);
-        Instantiate(enemy4Object, new Vector3(Random.Range(0, 10), 0, Random.Range(0, 10)), Quaternion.identity);
-        hero1 = hero1Object.GetComponent < Hero1 > ();
-        hero2 = hero2Object.GetComponent < Hero2 > ();
-        hero3 = hero3Object.GetComponent < Hero3 > ();
-        hero4 = hero4Object.GetComponent < Hero4 > ();
-        enemy1 = enemy1Object.GetComponent < Enemy1 > ();
-        enemy2 = enemy2Object.GetComponent < Enemy2 > ();
-        enemy3 = enemy3Object.GetComponent < Enemy3 > ();
-        enemy4 = enemy4Object.GetComponent < Enemy4 > ();
-        Debug.Log("Objects Instantiated");
+        //set char pos
+        h1Pos = new Vector3(5, 0, 5);
+        h2Pos = new Vector3(10, 0, 5);
+        h3Pos = new Vector3(15, 0, 5);
+        h4Pos = new Vector3(20, 0, 5);
+        h1Pos = new Vector3(5, 0, -5);
+        e2Pos = new Vector3(10, 0, -5);
+        e3Pos = new Vector3(15, 0, -5);
+        e4Pos = new Vector3(20, 0, -5);
+        targetOffset = new Vector3(0, 5, 0);
+        //Instantiate character prefabs
+        hero1Object = Instantiate(hero1Prefab, h1Pos, Quaternion.identity);
+        hero1Object.gameObject.tag = "hero1";
+        hero2Object = Instantiate(hero2Prefab, h2Pos, Quaternion.identity);
+        hero2Object.gameObject.tag = "hero2";
+        hero3Object = Instantiate(hero3Prefab, h3Pos, Quaternion.identity);
+        hero3Object.gameObject.tag = "hero3";
+        hero4Object = Instantiate(hero4Prefab, h4Pos, Quaternion.identity);
+        hero4Object.gameObject.tag = "hero4";
+        enemy1Object = Instantiate(enemy1Prefab, e1Pos, Quaternion.identity);
+        enemy1Object.gameObject.tag = "enemy1";
+        enemy2Object = Instantiate(enemy2Prefab, e2Pos, Quaternion.identity);
+        enemy2Object.gameObject.tag = "enemy2";
+        enemy3Object = Instantiate(enemy3Prefab, e3Pos, Quaternion.identity);
+        enemy3Object.gameObject.tag = "enemy3";
+        enemy4Object = Instantiate(enemy4Prefab, e4Pos, Quaternion.identity);
+        enemy4Object.gameObject.tag = "enemy4";
+        //get char scripts
+        hero1 = hero1Prefab.GetComponent < Hero1 > ();
+        hero2 = hero2Prefab.GetComponent < Hero2 > ();
+        hero3 = hero3Prefab.GetComponent < Hero3 > ();
+        hero4 = hero4Prefab.GetComponent < Hero4 > ();
+        enemy1 = enemy1Prefab.GetComponent < Enemy1 > ();
+        enemy2 = enemy2Prefab.GetComponent < Enemy2 > ();
+        enemy3 = enemy3Prefab.GetComponent < Enemy3 > ();
+        enemy4 = enemy4Prefab.GetComponent < Enemy4 > ();
+        //other scripts
+        battleCamera = cameraAxis.GetComponent < battleCamera > ();
+        //creates target off screen
+        //targetObject = GameObject.FindWithTag("target");
+        //initiate turn order
+        TurnOrder();
     }
 
     // Update is called once per frame
@@ -105,58 +153,142 @@ public class Manager : MonoBehaviour
         {
             TurnOrder();
         }
+        if (isEnemyTurn)
+        {
+            if (isE1Turn)
+            {
+                battleCamera.CircleCharacter(enemy1Object);
+            }
+            if (isE2Turn)
+            {
+                battleCamera.CircleCharacter(enemy2Object);
+            }
+            if (isE3Turn)
+            {
+                battleCamera.CircleCharacter(enemy3Object);
+            }
+            if (isE4Turn)
+            {
+                battleCamera.CircleCharacter(enemy4Object);
+            }
+        }
+        if (isHeroTurn)
+        {
+            if (isH1Turn)
+            {
+                battleCamera.CircleCharacter(hero1Object);
+            }
+            if (isH2Turn)
+            {
+                battleCamera.CircleCharacter(hero2Object);
+            }
+            if (isH3Turn)
+            {
+                battleCamera.CircleCharacter(hero3Object);
+            }
+            if (isH4Turn)
+            {
+                battleCamera.CircleCharacter(hero4Object);
+            }
+            if (Input.GetKeyDown(KeyCode.Q) && enemy1.isAlive)
+            {
+                ClearTargets();
+                isE1Targeted = true;
+                targetObject.gameObject.SetActive(true);
+                targetObject.transform.position = e1Pos + targetOffset;
+
+            }
+            if (Input.GetKeyDown(KeyCode.W) && enemy2.isAlive)
+            {
+                ClearTargets();
+                isE2Targeted = true;
+                targetObject.gameObject.SetActive(true);
+                targetObject.transform.position = e2Pos + targetOffset;
+            }
+            if (Input.GetKeyDown(KeyCode.E) && enemy3.isAlive)
+            {
+                ClearTargets();
+                isE3Targeted = true;
+                targetObject.gameObject.SetActive(true);
+                targetObject.transform.position = e3Pos + targetOffset;
+            }
+            if (Input.GetKeyDown(KeyCode.R) && enemy4.isAlive)
+            {
+                ClearTargets();
+                isE4Targeted = true;
+                targetObject.gameObject.SetActive(true);
+                targetObject.transform.position = e4Pos + targetOffset;
+            }
+            if (Input.GetKeyDown(KeyCode.T) && hero1.isAlive)
+            {
+                ClearTargets();
+                isH1Targeted = true;
+                targetObject.gameObject.SetActive(true);
+                targetObject.transform.position = h1Pos + targetOffset;
+
+            }
+            if (Input.GetKeyDown(KeyCode.Y) && hero2.isAlive)
+            {
+                ClearTargets();
+                isH2Targeted = true;
+                targetObject.gameObject.SetActive(true);
+                targetObject.transform.position = h2Pos + targetOffset;
+            }
+            if (Input.GetKeyDown(KeyCode.U) && hero3.isAlive)
+            {
+                ClearTargets();
+                isH3Targeted = true;
+                targetObject.gameObject.SetActive(true);
+                targetObject.transform.position = h3Pos + targetOffset;
+            }
+            if (Input.GetKeyDown(KeyCode.I) && enemy4.isAlive)
+            {
+                ClearTargets();
+                isH4Targeted = true;
+                targetObject.gameObject.SetActive(true);
+                targetObject.transform.position = h4Pos + targetOffset;
+            }
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                HeroAttack();
+                
+            }
+        }
     }
     public void HeroTurn()
     {
+        isHeroTurn = true;
         playerOptions.gameObject.SetActive(true);
-        if (isH1Turn)
-        {
-            Attack(hero1.attackDamage, hero1.attackPower);
-            UpdateTurnValue(hero1.turnValue, hero1.baseTurnValue);
-        }
-        else if (isH2Turn)
-        {
-            Attack(hero2.attackDamage, hero2.attackPower);
-            UpdateTurnValue(hero2.turnValue, hero2.baseTurnValue);
-        }
-        else if (isH3Turn)
-        {
-            Attack(hero3.attackDamage, hero3.attackPower);
-            UpdateTurnValue(hero3.turnValue, hero3.baseTurnValue);
-        }
-        else if (isH4Turn)
-        {
-            Attack(hero4.attackDamage, hero4.attackPower);
-            UpdateTurnValue(hero4.turnValue, hero4.baseTurnValue);
-        }
     }
     public void EnemyTurn()
     {
+        isEnemyTurn = true;
         RandomTarget();
         if (isE1Turn)
         {
             Attack(enemy1.attackDamage, enemy1.attackPower);
-            UpdateTurnValue(enemy1.turnValue, enemy1.baseTurnValue);
+            enemy1.turnValue = UpdateTurnValue(enemy1.turnValue, enemy1.baseTurnValue);
         }
         else if (isE2Turn)
         {
             Attack(enemy2.attackDamage, enemy2.attackPower);
-            UpdateTurnValue(enemy2.turnValue, enemy2.baseTurnValue);
+            enemy2.turnValue = UpdateTurnValue(enemy2.turnValue, enemy2.baseTurnValue);
         }
         else if (isE3Turn)
         {
             Attack(enemy3.attackDamage, enemy3.attackPower);
-            UpdateTurnValue(enemy3.turnValue, enemy3.baseTurnValue);
+            enemy3.turnValue = UpdateTurnValue(enemy3.turnValue, enemy3.baseTurnValue);
         }
         else if (isE4Turn)
         {
             Attack(enemy4.attackDamage, enemy4.attackPower);
-            UpdateTurnValue(enemy4.turnValue, enemy4.baseTurnValue);
+            enemy4.turnValue = UpdateTurnValue(enemy4.turnValue, enemy4.baseTurnValue);
         }
         EndTurn();
     }
     public void RandomTarget()
     {
+        ClearTargets();
         targets.Clear();
         if (isEnemyTurn)
         {
@@ -196,7 +328,34 @@ public class Manager : MonoBehaviour
                 targets.Add(isE4Targeted);
             }
         }
-        targets[Random.Range(0, targets.Count)] = true;
+        Debug.Log(targets.Count + "targets");
+        int target = Random.Range(0, targets.Count - 1);
+        Debug.Log(targets[target]);
+        targets[target] = true;
+    }
+    public void HeroAttack()
+    {
+        if (isH1Turn)
+        {
+            Attack(hero1.attackDamage, hero1.attackPower);
+            hero1.turnValue = UpdateTurnValue(hero1.turnValue, hero1.baseTurnValue);
+            Debug.Log(charOrder[0] + "'s turnValue is now " + hero1.turnValue);
+        }
+        else if (isH2Turn)
+        {
+            Attack(hero2.attackDamage, hero2.attackPower);
+            hero2.turnValue = UpdateTurnValue(hero2.turnValue, hero2.baseTurnValue);
+        }
+        else if (isH3Turn)
+        {
+            Attack(hero3.attackDamage, hero3.attackPower);
+            hero3.turnValue = UpdateTurnValue(hero3.turnValue, hero3.baseTurnValue);
+        }
+        else if (isH4Turn)
+        {
+            Attack(hero4.attackDamage, hero4.attackPower);
+            hero4.turnValue = UpdateTurnValue(hero4.turnValue, hero4.baseTurnValue);
+        }
     }
     public void Attack(float attackDamage, float attackPower)
     {
@@ -237,21 +396,25 @@ public class Manager : MonoBehaviour
         {
             Debug.Log("NO TARGET for attack ABORT ABORT");
         }
+        EndTurn();
     }
     public float DealDamage(float agility, float health, float defense, float attackDamage, float attackPower)
     {
         float agilityValue = DidAttackHit(agility);
-        return ((health * defense) - (attackDamage * attackPower * agilityValue));
+        float damageDealt = (attackDamage * attackPower * agilityValue / defense);
+Debug.Log("dealt " + damageDealt + " damage");
+        return (health - damageDealt);
     }
     public float DidAttackHit(float agility)
     {
         float randomNum = Random.Range(0, 100);
-        if (randomNum <= agility)
+        if (randomNum >= agility)
         {
             return 1.0f;
         }
         else
         {
+Debug.Log( charOrder[0] + "'s attack missed" + agility + randomNum);
             return 0.0f;
         }
     }
@@ -265,6 +428,14 @@ public class Manager : MonoBehaviour
         turnOrder.Clear();
         charOrder.Clear();
         charImage.Clear();
+        h1HasSlot = false;
+        h2HasSlot = false;
+        h3HasSlot = false;
+        h4HasSlot = false;
+        e1HasSlot = false;
+        e2HasSlot = false;
+        e3HasSlot = false;
+        e4HasSlot = false;
         if (hero1.isAlive)
         {
             turnOrder.Add(hero1.turnValue);
@@ -412,19 +583,22 @@ public class Manager : MonoBehaviour
                 }
             }
         }
+        Debug.Log("It is " + charOrder[0] + "'s turn");
     }
     public float UpdateTurnValue(float turnValue, float baseTurnValue)
     {
-        turnValue = turnValue + baseTurnValue;
+        turnValue += baseTurnValue;
         return turnValue;
     }
     public void EndTurn()
     {
         ClearTargets();
+        ClearTurnBool();
         TurnOrder();
     }
     public void ClearTargets()
     {
+        targetObject.gameObject.SetActive(false);
         isE1Targeted = false;
         isE2Targeted = false;
         isE3Targeted = false;
@@ -433,6 +607,17 @@ public class Manager : MonoBehaviour
         isH2Targeted = false;
         isH3Targeted = false;
         isH4Targeted = false;
+    }
+    public void ClearTurnBool()
+    {
+        isE1Turn = false;
+        isE2Turn = false;
+        isE3Turn = false;
+        isE4Turn = false;
+        isH1Turn = false;
+        isH2Turn = false;
+        isH3Turn = false;
+        isH4Turn = false;
     }
     public void CreateBattleUI()
     {

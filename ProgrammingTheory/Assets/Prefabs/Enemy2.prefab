@@ -117,7 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52a15ba3caa8261499dbc0ecdd6e54c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
+  health: NaN
   baseHealth: 0
   ether: 0
   baseEther: 0
@@ -128,8 +128,8 @@ MonoBehaviour:
   agility: 0
   title: Enemy2
   isAlive: 1
-  turnValue: 170
-  baseTurnValue: 0
+  turnValue: 160
+  baseTurnValue: 160
   currentLevel: 0
   currentExp: 0
   characterIcon: {fileID: 0}
@@ -161,7 +161,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 9826db59b095a804d8c734be1599e13d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

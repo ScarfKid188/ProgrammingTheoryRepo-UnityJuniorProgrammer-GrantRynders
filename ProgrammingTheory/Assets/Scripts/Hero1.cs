@@ -20,7 +20,7 @@ public class Hero1 : Hero
     agility = 15;
     title = "hero1";
     isAlive = true;
-    turnValue = 100;
+    //turnValue;
     baseTurnValue = 100;
     currentLevel = 1;
     currentExp = 0;
