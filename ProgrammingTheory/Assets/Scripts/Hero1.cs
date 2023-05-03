@@ -24,6 +24,6 @@ public class Hero1 : Hero
     baseTurnValue = 100;
     currentLevel = 1;
     currentExp = 0;
-    characterIcon = gameObject.GetComponent< Image >();
+    characterIcon = gameObject.GetComponent<Image>();
     }
 }

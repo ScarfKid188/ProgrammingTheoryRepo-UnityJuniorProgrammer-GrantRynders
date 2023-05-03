@@ -87,6 +87,46 @@ public class Manager : MonoBehaviour
     public Button runButton;
     public Button itemButton;
     public Button magicButton;
+    public GameObject h1Stats;
+    public GameObject h2Stats;
+    public GameObject h3Stats;
+    public GameObject h4Stats;
+    public TextMeshProUGUI h1HealthText;
+    public GameObject h1HealthBar;
+    public TextMeshProUGUI h1EtherText;
+    public GameObject h1EtherBar;
+    public TextMeshProUGUI h1LevelText;
+    public GameObject h1ExpBar;
+    public TextMeshProUGUI h1TitleText;
+    public GameObject h1IconObject;
+    public Image h1Icon;
+    public TextMeshProUGUI h2HealthText;
+    public GameObject h2HealthBar;
+    public TextMeshProUGUI h2EtherText;
+    public GameObject h2EtherBar;
+    public TextMeshProUGUI h2LevelText;
+    public GameObject h2ExpBar;
+    public TextMeshProUGUI h2TitleText;
+    public GameObject h2IconObject;
+    public Image h2Icon;
+    public TextMeshProUGUI h3HealthText;
+    public GameObject h3HealthBar;
+    public TextMeshProUGUI h3EtherText;
+    public GameObject h3EtherBar;
+    public TextMeshProUGUI h3LevelText;
+    public GameObject h3ExpBar;
+    public TextMeshProUGUI h3TitleText;
+    public GameObject h3IconObject;
+    public Image h3Icon;
+    public TextMeshProUGUI h4HealthText;
+    public GameObject h4HealthBar;
+    public TextMeshProUGUI h4EtherText;
+    public GameObject h4EtherBar;
+    public TextMeshProUGUI h4LevelText;
+    public GameObject h4ExpBar;
+    public TextMeshProUGUI h4TitleText;
+    public GameObject h4IconObject;
+    public Image h4Icon;
     //vectors
     public Vector3 h1Pos;
     public Vector3 h2Pos;
@@ -130,18 +170,36 @@ public class Manager : MonoBehaviour
         enemy4Object = Instantiate(enemy4Prefab, e4Pos, Quaternion.identity);
         enemy4Object.gameObject.tag = "enemy4";
         //get char scripts
-        hero1 = hero1Prefab.GetComponent < Hero1 > ();
-        hero2 = hero2Prefab.GetComponent < Hero2 > ();
-        hero3 = hero3Prefab.GetComponent < Hero3 > ();
-        hero4 = hero4Prefab.GetComponent < Hero4 > ();
-        enemy1 = enemy1Prefab.GetComponent < Enemy1 > ();
-        enemy2 = enemy2Prefab.GetComponent < Enemy2 > ();
-        enemy3 = enemy3Prefab.GetComponent < Enemy3 > ();
-        enemy4 = enemy4Prefab.GetComponent < Enemy4 > ();
+        hero1 = hero1Object.GetComponent < Hero1 > ();
+        hero2 = hero2Object.GetComponent < Hero2 > ();
+        hero3 = hero3Object.GetComponent < Hero3 > ();
+        hero4 = hero4Object.GetComponent < Hero4 > ();
+        enemy1 = enemy1Object.GetComponent < Enemy1 > ();
+        enemy2 = enemy2Object.GetComponent < Enemy2 > ();
+        enemy3 = enemy3Object.GetComponent < Enemy3 > ();
+        enemy4 = enemy4Object.GetComponent < Enemy4 > ();
         //other scripts
         battleCamera = cameraAxis.GetComponent < battleCamera > ();
         //creates target off screen
         //targetObject = GameObject.FindWithTag("target");
+        //initiate basic UI
+        h1LevelText.text = hero1.currentLevel.ToString();
+        h1TitleText.text = hero1.title;
+        h1Icon = h1IconObject.GetComponent<Image>();
+        h1Icon.sprite = hero1Object.GetComponent<Image>().sprite;
+        h2LevelText.text = hero2.currentLevel.ToString();
+        h2TitleText.text = hero2.title;
+        h2Icon = h2IconObject.GetComponent<Image>();
+        h2Icon.sprite = hero2Object.GetComponent<Image>().sprite;
+        h3LevelText.text = hero3.currentLevel.ToString();
+        h3TitleText.text = hero3.title;
+        h3Icon = h3IconObject.GetComponent<Image>();
+        h3Icon.sprite = hero3Object.GetComponent<Image>().sprite;
+        h4LevelText.text = hero4.currentLevel.ToString();
+        h4TitleText.text = hero4.title;
+        h4Icon = h4IconObject.GetComponent<Image>();
+        h4Icon.sprite = hero4Object.GetComponent<Image>().sprite;
+        UpdateStatsUI();
         //initiate turn order
         TurnOrder();
     }
@@ -153,46 +211,47 @@ public class Manager : MonoBehaviour
         {
             TurnOrder();
         }
-        if (isEnemyTurn)
-        {
-            if (isE1Turn)
-            {
-                battleCamera.CircleCharacter(enemy1Object);
-            }
-            if (isE2Turn)
-            {
-                battleCamera.CircleCharacter(enemy2Object);
-            }
-            if (isE3Turn)
-            {
-                battleCamera.CircleCharacter(enemy3Object);
-            }
-            if (isE4Turn)
-            {
-                battleCamera.CircleCharacter(enemy4Object);
-            }
-        }
+        //if (isEnemyTurn)
+        //{
+        //    if (isE1Turn)
+        //    {
+        //        battleCamera.CircleCharacter(enemy1Object);
+        //    }
+        //    if (isE2Turn)
+        //    {
+        //        battleCamera.CircleCharacter(enemy2Object);
+        //    }
+        //    if (isE3Turn)
+        //    {
+        //        battleCamera.CircleCharacter(enemy3Object);
+        //    }
+        //    if (isE4Turn)
+        //    {
+        //        battleCamera.CircleCharacter(enemy4Object);
+        //    }
+        //}
         if (isHeroTurn)
         {
-            if (isH1Turn)
-            {
-                battleCamera.CircleCharacter(hero1Object);
-            }
-            if (isH2Turn)
-            {
-                battleCamera.CircleCharacter(hero2Object);
-            }
-            if (isH3Turn)
-            {
-                battleCamera.CircleCharacter(hero3Object);
-            }
-            if (isH4Turn)
-            {
-                battleCamera.CircleCharacter(hero4Object);
-            }
+            //if (isH1Turn)
+            //{
+            //    battleCamera.CircleCharacter(hero1Object);
+            //}
+            //if (isH2Turn)
+            //{
+            //    battleCamera.CircleCharacter(hero2Object);
+            //}
+            //if (isH3Turn)
+            //{
+            //    battleCamera.CircleCharacter(hero3Object);
+            //}
+            //if (isH4Turn)
+            //{
+            //    battleCamera.CircleCharacter(hero4Object);
+            //}
             if (Input.GetKeyDown(KeyCode.Q) && enemy1.isAlive)
             {
                 ClearTargets();
+                targets.Add(isE1Targeted);
                 isE1Targeted = true;
                 targetObject.gameObject.SetActive(true);
                 targetObject.transform.position = e1Pos + targetOffset;
@@ -201,6 +260,7 @@ public class Manager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.W) && enemy2.isAlive)
             {
                 ClearTargets();
+                targets.Add(isE2Targeted);
                 isE2Targeted = true;
                 targetObject.gameObject.SetActive(true);
                 targetObject.transform.position = e2Pos + targetOffset;
@@ -208,6 +268,7 @@ public class Manager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E) && enemy3.isAlive)
             {
                 ClearTargets();
+                targets.Add(isE3Targeted);
                 isE3Targeted = true;
                 targetObject.gameObject.SetActive(true);
                 targetObject.transform.position = e3Pos + targetOffset;
@@ -215,6 +276,7 @@ public class Manager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.R) && enemy4.isAlive)
             {
                 ClearTargets();
+                targets.Add(isE4Targeted);
                 isE4Targeted = true;
                 targetObject.gameObject.SetActive(true);
                 targetObject.transform.position = e4Pos + targetOffset;
@@ -222,6 +284,7 @@ public class Manager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.T) && hero1.isAlive)
             {
                 ClearTargets();
+                targets.Add(isH1Targeted);
                 isH1Targeted = true;
                 targetObject.gameObject.SetActive(true);
                 targetObject.transform.position = h1Pos + targetOffset;
@@ -230,6 +293,7 @@ public class Manager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Y) && hero2.isAlive)
             {
                 ClearTargets();
+                targets.Add(isH2Targeted);
                 isH2Targeted = true;
                 targetObject.gameObject.SetActive(true);
                 targetObject.transform.position = h2Pos + targetOffset;
@@ -237,6 +301,7 @@ public class Manager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.U) && hero3.isAlive)
             {
                 ClearTargets();
+                targets.Add(isH3Targeted);
                 isH3Targeted = true;
                 targetObject.gameObject.SetActive(true);
                 targetObject.transform.position = h3Pos + targetOffset;
@@ -244,14 +309,21 @@ public class Manager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.I) && enemy4.isAlive)
             {
                 ClearTargets();
+                targets.Add(isH4Targeted);
                 isH4Targeted = true;
                 targetObject.gameObject.SetActive(true);
                 targetObject.transform.position = h4Pos + targetOffset;
             }
             if (Input.GetKeyDown(KeyCode.A))
             {
-                HeroAttack();
-                
+                if (targets.Count > 0)
+                {
+                    HeroAttack();
+                }
+                else
+                {
+                    Debug.Log("No target for heroAttack");
+                }
             }
         }
     }
@@ -266,23 +338,27 @@ public class Manager : MonoBehaviour
         RandomTarget();
         if (isE1Turn)
         {
-            Attack(enemy1.attackDamage, enemy1.attackPower);
             enemy1.turnValue = UpdateTurnValue(enemy1.turnValue, enemy1.baseTurnValue);
+            Attack(enemy1.attackDamage, enemy1.attackPower);
+            
         }
         else if (isE2Turn)
         {
-            Attack(enemy2.attackDamage, enemy2.attackPower);
             enemy2.turnValue = UpdateTurnValue(enemy2.turnValue, enemy2.baseTurnValue);
+            Attack(enemy2.attackDamage, enemy2.attackPower);
+            
         }
         else if (isE3Turn)
         {
-            Attack(enemy3.attackDamage, enemy3.attackPower);
             enemy3.turnValue = UpdateTurnValue(enemy3.turnValue, enemy3.baseTurnValue);
+            Attack(enemy3.attackDamage, enemy3.attackPower);
+            
         }
         else if (isE4Turn)
         {
-            Attack(enemy4.attackDamage, enemy4.attackPower);
             enemy4.turnValue = UpdateTurnValue(enemy4.turnValue, enemy4.baseTurnValue);
+            Attack(enemy4.attackDamage, enemy4.attackPower);
+            
         }
         EndTurn();
     }
@@ -337,24 +413,27 @@ public class Manager : MonoBehaviour
     {
         if (isH1Turn)
         {
-            Attack(hero1.attackDamage, hero1.attackPower);
             hero1.turnValue = UpdateTurnValue(hero1.turnValue, hero1.baseTurnValue);
             Debug.Log(charOrder[0] + "'s turnValue is now " + hero1.turnValue);
+            Attack(hero1.attackDamage, hero1.attackPower);
+           
         }
         else if (isH2Turn)
         {
+            hero2.turnValue = UpdateTurnValue(hero2.turnValue, hero2.baseTurnValue); 
             Attack(hero2.attackDamage, hero2.attackPower);
-            hero2.turnValue = UpdateTurnValue(hero2.turnValue, hero2.baseTurnValue);
         }
         else if (isH3Turn)
         {
-            Attack(hero3.attackDamage, hero3.attackPower);
             hero3.turnValue = UpdateTurnValue(hero3.turnValue, hero3.baseTurnValue);
+            Attack(hero3.attackDamage, hero3.attackPower);
+            
         }
         else if (isH4Turn)
         {
-            Attack(hero4.attackDamage, hero4.attackPower);
             hero4.turnValue = UpdateTurnValue(hero4.turnValue, hero4.baseTurnValue);
+            Attack(hero4.attackDamage, hero4.attackPower);
+            
         }
     }
     public void Attack(float attackDamage, float attackPower)
@@ -363,40 +442,47 @@ public class Manager : MonoBehaviour
         {
             enemy1.health = DealDamage(enemy1.agility, enemy1.health, enemy1.defense, attackDamage, attackPower);
             Debug.Log("e1health: " + enemy1.health);
+            EndTurn();
         }
         else if (isE2Targeted)
         {
             enemy2.health = DealDamage(enemy2.agility, enemy2.health, enemy2.defense, attackDamage, attackPower);
+            EndTurn();
         }
         else if (isE3Targeted)
         {
             enemy3.health = DealDamage(enemy3.agility, enemy3.health, enemy3.defense, attackDamage, attackPower);
+            EndTurn();
         }
         else if (isE4Targeted)
         {
             enemy4.health = DealDamage(enemy4.agility, enemy4.health, enemy4.defense, attackDamage, attackPower);
+            EndTurn();
         }
         else if (isH1Targeted)
         {
             hero1.health = DealDamage(hero1.agility, hero1.health, hero1.defense, attackDamage, attackPower);
+            EndTurn();
         }
         else if (isH2Targeted)
         {
             hero2.health = DealDamage(hero2.agility, hero2.health, hero2.defense, attackDamage, attackPower);
+            EndTurn();
         }
         else if (isH3Targeted)
         {
             hero3.health = DealDamage(hero3.agility, hero3.health, hero3.defense, attackDamage, attackPower);
+            EndTurn();
         }
         else if (isH4Targeted)
         {
             hero4.health = DealDamage(hero4.agility, hero4.health, hero4.defense, attackDamage, attackPower);
+            EndTurn();
         }
         else
         {
-            Debug.Log("NO TARGET for attack ABORT ABORT");
+            Debug.Log("NO TARGET for" + charOrder[0] + "'s attack ABORT ABORT");
         }
-        EndTurn();
     }
     public float DealDamage(float agility, float health, float defense, float attackDamage, float attackPower)
     {
@@ -436,6 +522,7 @@ Debug.Log( charOrder[0] + "'s attack missed" + agility + randomNum);
         e2HasSlot = false;
         e3HasSlot = false;
         e4HasSlot = false;
+        Debug.Log("cleared all turn slot properties");
         if (hero1.isAlive)
         {
             turnOrder.Add(hero1.turnValue);
@@ -583,6 +670,7 @@ Debug.Log( charOrder[0] + "'s attack missed" + agility + randomNum);
                 }
             }
         }
+        SetSlotImages();
         Debug.Log("It is " + charOrder[0] + "'s turn");
     }
     public float UpdateTurnValue(float turnValue, float baseTurnValue)
@@ -590,14 +678,29 @@ Debug.Log( charOrder[0] + "'s attack missed" + agility + randomNum);
         turnValue += baseTurnValue;
         return turnValue;
     }
+    public void SetSlotImages()
+    {
+        slot0.GetComponent<Image>().sprite = charImage[0].sprite;
+        slot1.GetComponent<Image>().sprite = charImage[1].sprite;
+        slot2.GetComponent<Image>().sprite = charImage[2].sprite;
+        slot3.GetComponent<Image>().sprite = charImage[3].sprite;
+        slot4.GetComponent<Image>().sprite = charImage[4].sprite;
+        slot5.GetComponent<Image>().sprite = charImage[5].sprite;
+        slot6.GetComponent<Image>().sprite = charImage[6].sprite;
+        slot7.GetComponent<Image>().sprite = charImage[7].sprite;
+    }
     public void EndTurn()
     {
+        Debug.Log("It is the end of " + charOrder[0] + "'s turn");
+        playerOptions.gameObject.SetActive(false);
+        UpdateStatsUI();
         ClearTargets();
         ClearTurnBool();
         TurnOrder();
     }
     public void ClearTargets()
     {
+        targets.Clear();
         targetObject.gameObject.SetActive(false);
         isE1Targeted = false;
         isE2Targeted = false;
@@ -610,6 +713,8 @@ Debug.Log( charOrder[0] + "'s attack missed" + agility + randomNum);
     }
     public void ClearTurnBool()
     {
+        isHeroTurn = false;
+        isEnemyTurn = false;
         isE1Turn = false;
         isE2Turn = false;
         isE3Turn = false;
@@ -622,5 +727,10 @@ Debug.Log( charOrder[0] + "'s attack missed" + agility + randomNum);
     public void CreateBattleUI()
     {
         mainBattleUI.gameObject.SetActive(true);
+    }
+    public void UpdateStatsUI()
+    {
+        h1HealthText.text = hero1.health.ToString() + "/" + hero1.baseHealth.ToString();
+        h1EtherText.text = hero1.ether.ToString() + "/" + hero1.baseEther.ToString();
     }
 }

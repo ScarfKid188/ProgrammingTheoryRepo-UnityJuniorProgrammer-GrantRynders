@@ -120,7 +120,7 @@ MonoBehaviour:
   health: 100
   baseHealth: 100
   ether: 10
-  baseEther: 0
+  baseEther: 10
   attackDamage: 50
   attackPower: 1
   defense: 1
@@ -132,7 +132,7 @@ MonoBehaviour:
   baseTurnValue: 100
   currentLevel: 0
   currentExp: 0
-  characterIcon: {fileID: 0}
+  characterIcon: {fileID: -206083100033779107}
 --- !u!222 &7129585584669700582
 CanvasRenderer:
   m_ObjectHideFlags: 0

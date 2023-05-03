@@ -118,22 +118,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c253576393b85a64584c157466d8efca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
-  baseHealth: 0
-  ether: 0
-  baseEther: 0
-  attackDamage: 0
-  attackPower: 0
-  defense: 0
-  speed: 0
-  agility: 0
+  health: 100
+  baseHealth: 100
+  ether: 10
+  baseEther: 10
+  attackDamage: 30
+  attackPower: 1
+  defense: 1
+  speed: 1
+  agility: 1
   title: Hero3
   isAlive: 1
   turnValue: 150
   baseTurnValue: 150
-  currentLevel: 0
+  currentLevel: 1
   currentExp: 0
-  characterIcon: {fileID: 0}
+  characterIcon: {fileID: 3859030192296950592}
 --- !u!222 &6143670045446876550
 CanvasRenderer:
   m_ObjectHideFlags: 0

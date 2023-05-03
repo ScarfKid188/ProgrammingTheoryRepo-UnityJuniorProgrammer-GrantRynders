@@ -117,22 +117,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e128071f7a484f4291a72fa29854830, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
-  baseHealth: 0
-  ether: 0
-  baseEther: 0
-  attackDamage: 0
-  attackPower: 0
-  defense: 0
-  speed: 0
-  agility: 0
+  health: 150
+  baseHealth: 150
+  ether: 1
+  baseEther: 1
+  attackDamage: 20
+  attackPower: 1
+  defense: 1
+  speed: 1
+  agility: 1
   title: Enemy4
   isAlive: 1
   turnValue: 200
-  baseTurnValue: 0
+  baseTurnValue: 200
   currentLevel: 0
   currentExp: 0
-  characterIcon: {fileID: 0}
+  characterIcon: {fileID: 5994479245168574635}
 --- !u!222 &1784843155916283369
 CanvasRenderer:
   m_ObjectHideFlags: 0
