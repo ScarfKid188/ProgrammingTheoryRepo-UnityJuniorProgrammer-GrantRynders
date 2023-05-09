@@ -7,8 +7,9 @@ using UnityEngine.UI;
 
 public class heroAttackButton : ButtonManager
 {
-    public void TaskOnClick()
+    void TaskOnClick()
     {
-        manager.HeroAttack();
+       Debug.Log("CLICK");
+       manager.HeroAttack();
     }
 }
