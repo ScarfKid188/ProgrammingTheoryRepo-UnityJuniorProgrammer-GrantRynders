@@ -26,55 +26,20 @@ public class Character : Manager
     public float currentLevel;
     public float currentExp;
     public Image characterIcon;
-    public class Spell : Character
-    {
-        public float etherCost;
-        public float delay;
-        public float amountHealed;
-        public class HealSpell : Spell
-        {
-            
-            void Start()
-            {
-                etherCost = 1;
-                delay = 50;
-                amountHealed = 30;
-            }
-            public void CastSpell()
-            {
-                ether -= etherCost;
-                turnValue += delay;
-                Heal(amountHealed);
-            }
-        }
-        public class AttackSpell : Spell
-        {
-            void Start()
-            {
-                etherCost = 1;
-                delay = 50;
-            }
-            public void CastSpell()
-            {
-                ether -= etherCost;
-                turnValue += delay;
-                Attack(attackDamage, attackPower);
-            }
-        }
-        public class GuardSpell : Spell
-        {
-            void Start()
-            {
-                etherCost = 1;
-                delay = 50;
-            }
-            public void CastSpell()
-            {
-                ether -= etherCost;
-                turnValue += delay;
-                Defend(defense);
-            }
-        }
+    public List<Spell> charSpells = new List<Spell>();
 
+    public GameObject managerObject;
+    public Manager manager;
+    public Spell spell;
+    public Spell attackSpell;
+    void Start()
+    {
+        managerObject = GameObject.Find("Manager");
+        manager = managerObject.GetComponent<Manager>();
+        spell = managerObject.GetComponent<Spell>();
+        //charSpells.Add(Spell.AttackSpell);
+        //charSpells.Add(Spell.DefendSpell);
+        //charSpells.Add(Spell.HealSpell);
     }
+
 }

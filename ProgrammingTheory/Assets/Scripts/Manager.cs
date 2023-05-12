@@ -42,7 +42,7 @@ public class Manager : MonoBehaviour
     public List<float> turnOrder = new List<float>(); // list of character turnValues
     public List<Character> charOrder = new List<Character>(); // list of characters to help visualize what's happening, get active character
     public List<Image> charImage = new List<Image>(); //list of character icons
-    public List<GameObject> slotsList = new List<GameObject>();
+    public List<GameObject> slotsList = new List<GameObject>(); // list of the slot gameObjects that aligns with charImage
     public bool isHeroTurn;
     public bool isEnemyTurn;
     public GameObject slot0;
@@ -62,6 +62,7 @@ public class Manager : MonoBehaviour
     public Button runButton;
     public Button itemButton;
     public Button magicButton;
+    public Dropdown magicDropdown;
     public GameObject h1Stats;
     public GameObject h2Stats;
     public GameObject h3Stats;
@@ -113,7 +114,9 @@ public class Manager : MonoBehaviour
     public Vector3 e4Pos;
     public Vector3 targetOffset;
     //general
-    public List<Character> participants = new List<Character>(); // list of all Characters in battle
+    public List<Character> heroes = new List<Character>();
+    public List<Character> enemies = new List<Character>();
+    public List<Character> participants = new List<Character>(); // list of all active Characters in battle
     public List<Character> targets = new List<Character>(); // list of all targeted Characters
     // Start is called before the first frame update
     void Start()
@@ -155,14 +158,23 @@ public class Manager : MonoBehaviour
         enemy3 = enemy3Object.GetComponent < Enemy3 > ();
         enemy4 = enemy4Object.GetComponent < Enemy4 > ();
         //participants list
-        participants.Add(hero1);
-        participants.Add(hero2);
-        participants.Add(hero3);
-        participants.Add(hero4);
-        participants.Add(enemy1);
-        participants.Add(enemy2);
-        participants.Add(enemy3);
-        participants.Add(enemy4);
+        heroes.Add(hero1);
+        heroes.Add(hero2);
+        heroes.Add(hero3);
+        heroes.Add(hero4);
+        enemies.Add(enemy1);
+        enemies.Add(enemy2);
+        enemies.Add(enemy3);
+        enemies.Add(enemy4);
+        foreach (Character hero in heroes)
+        {
+            participants.Add(hero);
+        }
+        foreach (Character enemy in enemies)
+        {
+            participants.Add(enemy);
+        }
+        
         //iconSlots list
         slotsList.Add(slot0);
         slotsList.Add(slot1);
@@ -321,29 +333,13 @@ public class Manager : MonoBehaviour
     {
         isEnemyTurn = true;
         RandomTarget();
-        if (enemy1.isTurn)
+        foreach (Character enemy in enemies)
         {
-            enemy1.turnValue = UpdateTurnValue(enemy1.turnValue, enemy1.baseTurnValue);
-            Attack(enemy1.attackDamage, enemy1.attackPower);
-            
-        }
-        else if (enemy2.isTurn)
-        {
-            enemy2.turnValue = UpdateTurnValue(enemy2.turnValue, enemy2.baseTurnValue);
-            Attack(enemy2.attackDamage, enemy2.attackPower);
-            
-        }
-        else if (enemy3.isTurn)
-        {
-            enemy3.turnValue = UpdateTurnValue(enemy3.turnValue, enemy3.baseTurnValue);
-            Attack(enemy3.attackDamage, enemy3.attackPower);
-            
-        }
-        else if (enemy4.isTurn)
-        {
-            enemy4.turnValue = UpdateTurnValue(enemy4.turnValue, enemy4.baseTurnValue);
-            Attack(enemy4.attackDamage, enemy4.attackPower);
-            
+                if (enemy.isTurn)
+                {
+                    Attack(enemy.attackDamage, enemy.attackPower);
+
+                }
         }
         EndTurn();
     }
@@ -352,40 +348,22 @@ public class Manager : MonoBehaviour
         ClearTargets();
         if (isEnemyTurn)
         {
-            if (hero1.isAlive)
+            foreach (Character hero in heroes)
             {
-                targets.Add(hero1);
-            }
-            if (hero2.isAlive)
-            {
-                targets.Add(hero2);
-            }
-            if (hero3.isAlive)
-            {
-                targets.Add(hero3);
-            }
-            if (hero4.isAlive)
-            {
-                targets.Add(hero4);
+                if (hero.isAlive)
+                {
+                    targets.Add(hero);
+                }
             }
         }
         else if (isHeroTurn)
         {
-            if (enemy1.isAlive)
+            foreach (Character enemy in enemies)
             {
-                targets.Add(enemy1);
-            }
-            if (enemy2.isAlive)
-            {
-                targets.Add(enemy2);
-            }
-            if (enemy3.isAlive)
-            {
-                targets.Add(enemy3);
-            }
-            if (enemy4.isAlive)
-            {
-                targets.Add(enemy4);
+                if (enemy.isAlive)
+                {
+                    targets.Add(enemy);
+                }
             }
         }  
         int target = Random.Range(0, targets.Count - 1);
@@ -396,29 +374,13 @@ public class Manager : MonoBehaviour
     {
         if (targets.Count > 0)
         {
-            if (hero1.isTurn)
+            foreach (Character hero in heroes)
             {
-                hero1.turnValue = UpdateTurnValue(hero1.turnValue, hero1.baseTurnValue);
-                Debug.Log(charOrder[0] + "'s turnValue is now " + hero1.turnValue);
-                Attack(hero1.attackDamage, hero1.attackPower);
+                if (hero.isTurn)
+                {
+                    Attack(hero.attackDamage, hero.attackPower);
 
-            }
-            else if (hero2.isTurn)
-            {
-                hero2.turnValue = UpdateTurnValue(hero2.turnValue, hero2.baseTurnValue);
-                Attack(hero2.attackDamage, hero2.attackPower);
-            }
-            else if (hero3.isTurn)
-            {
-                hero3.turnValue = UpdateTurnValue(hero3.turnValue, hero3.baseTurnValue);
-                Attack(hero3.attackDamage, hero3.attackPower);
-
-            }
-            else if (hero4.isTurn)
-            {
-                hero4.turnValue = UpdateTurnValue(hero4.turnValue, hero4.baseTurnValue);
-                Attack(hero4.attackDamage, hero4.attackPower);
-
+                }
             }
         }
         else
@@ -508,6 +470,20 @@ Debug.Log( charOrder[0] + "'s attack missed" + agility + randomNum);
         }
         return health;
     }
+    //public void UseSpell(int index)
+    //{
+    //    index = magicDropdown.value;
+    //    GenerateSpellList();
+    //}
+    //public void GenerateSpellList()
+    //{
+    //    List<string> magicDropOptions = new List<string>();
+    //    foreach (Spell spell in charOrder[0].charSpells)
+    //    {
+    //        magicDropOptions.Add(spell.spellTitle);
+    //    }
+    //    magicDropdown.AddOptions(magicDropOptions);
+    //}
     public void CreateTurnList()
     {
         Debug.Log("TurnListCreated");
@@ -581,6 +557,8 @@ Debug.Log( charOrder[0] + "'s attack missed" + agility + randomNum);
     }
     public void EndTurn()
     {
+        charOrder[0].turnValue = UpdateTurnValue(charOrder[0].turnValue, charOrder[0].baseTurnValue);
+        Debug.Log(charOrder[0] + "'s turnValue is now " + charOrder[0].turnValue);
         Debug.Log("It is the end of " + charOrder[0] + "'s turn");
         playerOptions.gameObject.SetActive(false);
         ClearTargets();
@@ -588,7 +566,6 @@ Debug.Log( charOrder[0] + "'s attack missed" + agility + randomNum);
         CheckIfCharsAreDead();
         UpdateStatsUI();
         TurnOrder();
-        
     }
     public void ClearTargets()
     {
@@ -637,14 +614,26 @@ Debug.Log( charOrder[0] + "'s attack missed" + agility + randomNum);
         Debug.Log(participants[0]);
         foreach (Character participant in participants)
         { 
-        if (participant.health <= 0)
+             if (participant.health <= 0)
+             {
+                 Debug.Log(participant + " is dead");
+                 participant.health = 0;
+                 participant.isAlive = false;
+                 if (participant is Enemy)
+                 {
+                     participant.gameObject.SetActive(false);
+                 }
+             }
+        }
+        if (heroes[0].isAlive == false && heroes[1].isAlive == false && heroes[2].isAlive == false && heroes[3].isAlive == false)
         {
-            Debug.Log(participant + " is dead");
-            participant.health = 0;
-            participant.isAlive = false;
-            participant.gameObject.SetActive(false);
+            GameOver();
         }
-        }
-        
+    }
+    public void GameOver()
+    {
+        ClearTargets();
+        ClearTurnBool();
+        SceneManager.LoadScene("Title", LoadSceneMode.Single);
     }
 }
