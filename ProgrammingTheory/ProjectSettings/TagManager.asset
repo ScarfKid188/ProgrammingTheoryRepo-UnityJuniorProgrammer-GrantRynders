@@ -13,6 +13,10 @@ TagManager:
   - enemy2
   - enemy3
   - enemy4
+  - TitleWarp
+  - Hero
+  - Enemy
+  - SaveStation
   layers:
   - Default
   - TransparentFX

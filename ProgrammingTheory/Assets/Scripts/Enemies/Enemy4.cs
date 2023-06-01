@@ -13,7 +13,7 @@ public class Enemy4 : Enemy
         baseHealth = 100;
         ether = 6;
         baseEther = 6;
-        attackDamage = 50;
+        attackDamage = 1;
         attackPower = 1;
         defense = 1;
         speed = 1;
